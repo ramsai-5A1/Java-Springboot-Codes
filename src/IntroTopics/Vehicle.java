@@ -25,4 +25,10 @@ public class Vehicle {
         System.out.println("Price: " + this.price);
         System.out.println("Brand Name is: " + this.brandName);
     }
+
+    public void printOnlyPrice(int a) {
+        System.out.println("Price: " + this.price);
+    }
 }
+
+// we can only override those methods which are present within parent class
