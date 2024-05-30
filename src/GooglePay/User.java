@@ -1,18 +1,23 @@
 package GooglePay;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 
 public class User {
 
     private String fullName;
     private String mobileNumber;
     private int gpayLoginPin;
+    private BankAccount defaultBankAccount;
     private ArrayList<BankAccount> linkedBankAccounts;
+    private ArrayDeque<Transaction> previousTransactions;
 
     public User() {
         this.fullName = "None";
         this.mobileNumber = "None";
         this.gpayLoginPin = -1;
+        this.defaultBankAccount = null;
         this.linkedBankAccounts = new ArrayList<>();
+        this.previousTransactions = new ArrayDeque<>();
     }
 
     public void setFullName(String fullName) {
@@ -31,6 +36,14 @@ public class User {
         this.gpayLoginPin = gpayLoginPin;
     }
 
+    public void setPreviousTransactions(ArrayDeque<Transaction> previousTransactions) {
+        this.previousTransactions = previousTransactions;
+    }
+
+    public void setDefaultBankAccount(BankAccount defaultBankAccount) {
+        this.defaultBankAccount = defaultBankAccount;
+    }
+
     public String getFullName() {
         return this.fullName;
     }
@@ -45,5 +58,13 @@ public class User {
 
     public int getGpayLoginPin() {
         return this.gpayLoginPin;
+    }
+
+    public ArrayDeque<Transaction> getPreviousTransactions() {
+        return this.previousTransactions;
+    }
+
+    public BankAccount getDefaulBankAccount() {
+        return this.defaultBankAccount;
     }
 }

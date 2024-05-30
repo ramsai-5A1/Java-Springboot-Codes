@@ -36,7 +36,7 @@ public class Authentication {
 
         if (isLoggedIn) {
             System.out.println("Successfully Logged in");
-            this.handleLoginMenu();
+            this.handleLoginMenu(mobileNumber);
         } else {
             System.out.println("Your account got blocked for next 24 hours");
         }
@@ -73,7 +73,7 @@ public class Authentication {
         System.out.println("Hurray..." + fullName + ", your account registered successfully");
     }
 
-    public void handleLoginMenu() {
+    public void handleLoginMenu(String mobileNumber) {
         while (true) {
             System.out.println("1 - Add new Bankaccount");
             System.out.println("2 - Check Balance");
@@ -88,11 +88,11 @@ public class Authentication {
             boolean shouldLogout = false;
             switch (option) {
                 case 1:
-                    System.out.println("Handle add new bankaccount");
+                    loginController.addNewBankAccount(mobileNumber);
                 break;
 
                 case 2:
-                    System.out.println("Handle Check Balance");
+                    loginController.checkBalance(mobileNumber);
                 break;
 
                 case 3:
@@ -100,7 +100,7 @@ public class Authentication {
                 break;
 
                 case 4:
-                    System.out.println("Handle Send Money to others");
+                    loginController.sendMoneyToOthers(mobileNumber);
                 break;
 
                 case 5:
