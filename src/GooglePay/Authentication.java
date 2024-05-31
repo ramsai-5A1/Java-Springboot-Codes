@@ -75,12 +75,15 @@ public class Authentication {
 
     public void handleLoginMenu(String mobileNumber) {
         while (true) {
+            System.out.println("\n\n\n**********************************************************");
             System.out.println("1 - Add new Bankaccount");
             System.out.println("2 - Check Balance");
             System.out.println("3 - Check Previous Transactions");
             System.out.println("4 - Send Money to others");
             System.out.println("5 - Self Transfer");
-            System.out.println("6 - Logout");
+            System.out.println("6 - Deposit money at CDM");
+            System.out.println("7 - Logout");
+            System.out.println("**********************************************************\n\n\n");
             System.out.print("Choose the option");
             int option = Integer.parseInt(scanner.nextLine());
             
@@ -108,6 +111,10 @@ public class Authentication {
                 break;
 
                 case 6:
+                    loginController.depositMoneyAtCDM(mobileNumber);
+                break;
+
+                case 7:
                     shouldLogout = true;
                 break;
 

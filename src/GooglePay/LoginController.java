@@ -90,6 +90,10 @@ public class LoginController {
 
     public void checkBalance(String mobileNumber) {
         User user = dataStore.get(mobileNumber);
+        if (user.getLinkedBankAccounts().size() == 0) {
+            System.out.println("You didn't linked any Bank accounts yet to Gpay, kindly do that first!!");
+            return;
+        }
         int value = 1;
         for (BankAccount bank: user.getLinkedBankAccounts()) {
             System.out.println(value + " - " + bank.getBankName());
@@ -103,6 +107,11 @@ public class LoginController {
 
 
     public void sendMoneyToOthers(String mobileNumber) {
+        User senderUser = dataStore.get(mobileNumber);
+        if (senderUser.getLinkedBankAccounts().size() == 0) {
+            System.out.println("You didn't linked any Bank accounts yet to Gpay, kindly do that first!!");
+            return;
+        }
         System.out.println("Enter the mobile number of the receiver:");
         String receiverMobileNumber = scanner.nextLine();
 
@@ -110,7 +119,7 @@ public class LoginController {
             System.out.println("User not registered on GPay");
             return;
         }
-        User senderUser = dataStore.get(mobileNumber);
+        
         User receiverUser = dataStore.get(receiverMobileNumber);
         System.out.println("Name is: " + receiverUser.getFullName());
         System.out.println("Is the above name correct one (y or n):");
@@ -120,6 +129,14 @@ public class LoginController {
             System.out.println("How much amount do you want to transfer?");
             int amountToBeSent = Integer.parseInt(scanner.nextLine());
             int senderBankBalance = senderUser.getDefaulBankAccount().getCurrentBalance();
+            if (amountToBeSent > senderBankBalance) {
+                System.out.println("Insufficient funds");
+                return;
+            } 
+            if (receiverUser.getDefaulBankAccount() == null) {
+                System.out.println("Receiver didn't linked any bank account to Gpay yet");
+                return;
+            }
             int receiverBankBalance = receiverUser.getDefaulBankAccount().getCurrentBalance();
             receiverBankBalance += amountToBeSent;
             senderBankBalance -= amountToBeSent;
@@ -128,5 +145,32 @@ public class LoginController {
             receiverUser.getDefaulBankAccount().setCurrentBalance(receiverBankBalance);
             System.out.println("Transferred " + amountToBeSent + " rupees successfully");
         }
+    }
+
+    public void depositMoneyAtCDM(String mobileNumber) {
+        User user = dataStore.get(mobileNumber);
+        if (user.getLinkedBankAccounts().size() == 0) {
+            System.out.println("You didn't linked the bank account yet to Gpay, kindly please link the bank account first!!");
+            return;
+        }
+        System.out.println("Enter the total amount you want to deposit:");
+        int amount = Integer.parseInt(scanner.nextLine());
+        int position = 1;
+
+        for (BankAccount bankObj: user.getLinkedBankAccounts()) {
+            System.out.println(position + " - " + bankObj.getBankName());
+            position++;
+        }
+        System.out.println("Chooose the bank name from above list:");
+        int bankPosition = Integer.parseInt(scanner.nextLine()) - 1;
+        int currentBalance = user.getLinkedBankAccounts().get(bankPosition).getCurrentBalance();
+        user.getLinkedBankAccounts().get(bankPosition).setCurrentBalance(currentBalance + amount);
+        System.out.println("Do you want to display the current balance ? (y or n)");
+        Character ch = scanner.nextLine().charAt(0);
+
+        if (ch == 'y') {
+            System.out.println("Your total balance is: " + (currentBalance + amount));
+        }
+        System.out.println("Thank you!!");
     }
 }

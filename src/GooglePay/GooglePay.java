@@ -8,12 +8,12 @@ public class GooglePay {
         Authentication auth = new Authentication();
 
         while (true) {
-            System.out.println("--------------------------------------------------------");
+            System.out.println("\n\n\n**********************************************************");
             System.out.println("Welcome to GPay");
             System.out.println("1 - Login");
             System.out.println("2 - Signup");
             System.out.println("3 - Exit");
-            System.out.println("--------------------------------------------------------");
+            System.out.println("**********************************************************\n\n\n");
             System.out.print("Choose the option:");
             int option = scanner.nextInt();
 
