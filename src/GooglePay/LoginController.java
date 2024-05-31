@@ -143,6 +143,16 @@ public class LoginController {
 
             senderUser.getDefaulBankAccount().setCurrentBalance(senderBankBalance);
             receiverUser.getDefaulBankAccount().setCurrentBalance(receiverBankBalance);
+            
+            Transaction transaction = new Transaction();
+            transaction.setSenderName(senderUser.getFullName());
+            transaction.setReceiverName(receiverUser.getFullName());
+            transaction.setTotalAmountSent(amountToBeSent);
+            transaction.setReceiverBank(receiverUser.getDefaulBankAccount().getBankName());
+            transaction.setSenderBank(senderUser.getDefaulBankAccount().getBankName());
+            senderUser.getPreviousTransactions().add(transaction);
+            receiverUser.getPreviousTransactions().add(transaction);
+
             System.out.println("Transferred " + amountToBeSent + " rupees successfully");
         }
     }
@@ -165,6 +175,18 @@ public class LoginController {
         int bankPosition = Integer.parseInt(scanner.nextLine()) - 1;
         int currentBalance = user.getLinkedBankAccounts().get(bankPosition).getCurrentBalance();
         user.getLinkedBankAccounts().get(bankPosition).setCurrentBalance(currentBalance + amount);
+        
+        Transaction transaction = new Transaction();
+        transaction.setTotalAmountSent(amount);
+        transaction.setSenderBank(user.getDefaulBankAccount().getBankName());
+        transaction.setReceiverBank(user.getLinkedBankAccounts().get(bankPosition).getBankName());
+        transaction.setSenderName("Depositing from CDM");
+        transaction.setReceiverName(user.getFullName());
+
+        ArrayList<Transaction> previouTransactions = user.getPreviousTransactions();
+        previouTransactions.add(transaction);
+        user.setPreviousTransactions(previouTransactions);
+
         System.out.println("Do you want to display the current balance ? (y or n)");
         Character ch = scanner.nextLine().charAt(0);
 
@@ -172,5 +194,31 @@ public class LoginController {
             System.out.println("Your total balance is: " + (currentBalance + amount));
         }
         System.out.println("Thank you!!");
+    }
+
+    public void checkPreviousTransactions(String mobileNumber) {
+        User user = dataStore.get(mobileNumber);
+        if (user.getPreviousTransactions().size() == 0) {
+            System.out.println("No Transactions done yet!!");
+            return;
+        }
+
+        ArrayList<Transaction> previousTransactions = user.getPreviousTransactions();
+        int n = previousTransactions.size();
+        int position = 1;
+        System.out.println("N value is: " + n);
+        System.out.println("\n\n\n**********************************************************");
+        for (int index = n - 1; index >= 0; index--) {
+            System.out.println("\n\n");
+            System.out.println(position + " - Transaction");
+            Transaction transaction = previousTransactions.get(index);
+            System.out.println("Sender's name: " + transaction.getSenderName());
+            System.out.println("Receiver's name: " + transaction.getReceiverName());
+            System.out.println("Sender's bank name: " + transaction.getSenderBank());
+            System.out.println("Receiver's bank name: " + transaction.getReceiverBank());
+            System.out.println("Amount send is: " + transaction.getTotalAmountSent());
+            position++;
+        }
+        System.out.println("\n\n\n**********************************************************");
     }
 }

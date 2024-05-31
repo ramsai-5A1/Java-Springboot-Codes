@@ -99,7 +99,7 @@ public class Authentication {
                 break;
 
                 case 3:
-                    System.out.println("Handle Check Previous Transactions");
+                    loginController.checkPreviousTransactions(mobileNumber);
                 break;
 
                 case 4:

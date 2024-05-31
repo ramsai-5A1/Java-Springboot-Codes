@@ -35,4 +35,23 @@ public class Transaction {
     public void setReceiverBank(AvailableBanks receiverBank) {
         this.receiverBank = receiverBank;
     }
+
+    public String getSenderName() {
+        return this.senderName;
+    }
+
+    public String getReceiverName() {
+        return this.receiverName;
+    }
+
+    public AvailableBanks getSenderBank() {
+        return this.senderBank;
+    }
+    public AvailableBanks getReceiverBank() {
+        return this.receiverBank;
+    }
+
+    public int getTotalAmountSent() {
+        return this.totalAmountSent;
+    }
 }
